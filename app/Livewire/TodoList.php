@@ -45,9 +45,6 @@ class TodoList extends Component
 
         // Clear the input field
         $this->newTask = '';
-
-        // Manually trigger the UI update after clearing the input
-        $this->dispatch('task-added');
     }
 
     /**

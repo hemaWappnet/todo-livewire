@@ -23,11 +23,4 @@
             font-family: 'Comic Neue', cursive;
         }
     </style>
-
-    <script>
-        document.addEventListener('task-added', function() {
-            // Manually clear the input field after the task is added
-            document.querySelector('input[type="text"]').value = '';
-        });
-    </script>
 </x-app-layout>
