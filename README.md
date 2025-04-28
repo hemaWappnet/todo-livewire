@@ -21,7 +21,7 @@ This is a **To-Do Application** built with the [Laravel](https://laravel.com) fr
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/todo-livewire.git
+    git clone https://github.com/hemaWappnet/todo-livewire.git
     cd todo-livewire
     ```
 
