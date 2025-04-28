@@ -4,13 +4,14 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Collection;
 
 class TodoList extends Component
 {
-    public $newTask = ''; // Holds the new task input
-    public $tasks; // Holds the list of tasks
-    public $editingTaskId = null; // Tracks the ID of the task being edited
-    public $editedTaskTitle = ''; // Holds the title of the task being edited
+    public $newTask = '';
+    public Collection $tasks;
+    public $editingTaskId = null;
+    public $editedTaskTitle = '';
 
     /**
      * Lifecycle hook to initialize the component.
@@ -27,35 +28,29 @@ class TodoList extends Component
     public function addTask()
     {
         $this->validate([
-            'newTask' => 'required|string|max:255', // Validate input
+            'newTask' => 'required|string|max:255',
         ]);
 
-        // Clear any editing state to avoid conflicts
-        $this->editingTaskId = null;
-        $this->editedTaskTitle = '';
-
-        // Create a new task
-        Task::create([
+        // Create a new task and add it to the list
+        $task = Task::create([
             'title' => $this->newTask,
         ]);
+
+        // Add the task to the local list (no need to refetch from the DB)
+        $this->tasks->prepend($task);  // Adding to the start to keep the order
 
         // Clear the input field
         $this->newTask = '';
 
-        // Refresh the task list
-        $this->tasks = Task::orderBy('created_at', 'desc')->get();
+        // Manually trigger the UI update after clearing the input
+        $this->dispatch('task-added');
     }
 
     /**
      * Prepares a task for editing.
-     *
-     * @param Task $task
      */
     public function editTask(Task $task)
     {
-        // Clear the new task input to avoid conflicts
-        $this->newTask = '';
-
         // Set the task ID and title for editing
         $this->editingTaskId = $task->id;
         $this->editedTaskTitle = $task->title;
@@ -63,56 +58,61 @@ class TodoList extends Component
 
     /**
      * Updates the task with the new title.
-     *
-     * @param Task $task
      */
     public function updateTask(Task $task)
     {
         $this->validate([
-            'editedTaskTitle' => 'required|string|max:255', // Validate input
+            'editedTaskTitle' => 'required|string|max:255',
         ]);
 
         // Update the task title
         $task->title = $this->editedTaskTitle;
         $task->save();
 
+        // Find the task in the list and update it
+        $this->tasks = $this->tasks->map(function ($t) use ($task) {
+            if ($t->id === $task->id) {
+                $t->title = $task->title;
+            }
+            return $t;
+        });
+
         // Clear editing state
         $this->editingTaskId = null;
         $this->editedTaskTitle = '';
-
-        // Refresh the task list
-        $this->tasks = Task::orderBy('created_at', 'desc')->get();
     }
 
     /**
      * Toggles the completion status of a task.
-     *
-     * @param Task $task
      */
     public function toggleCompleted(Task $task)
     {
-        $task->completed = !$task->completed; // Toggle the completed status
+        $task->completed = !$task->completed;
         $task->save();
 
-        // Refresh the task list
-        $this->tasks = Task::orderBy('created_at', 'desc')->get();
+        // Update the task in the list
+        $this->tasks = $this->tasks->map(function ($t) use ($task) {
+            if ($t->id === $task->id) {
+                $t->completed = $task->completed;
+            }
+            return $t;
+        });
     }
 
     /**
      * Deletes a task from the list.
-     *
-     * @param int $taskId
      */
     public function deleteTask($taskId)
     {
         $task = Task::find($taskId);
 
         if ($task) {
-            $task->delete(); // Delete the task
+            $task->delete();  // Delete the task
+            // Remove the task from the local list without needing a DB refresh
+            $this->tasks = $this->tasks->filter(function ($t) use ($taskId) {
+                return $t->id !== $taskId;
+            });
         }
-
-        // Refresh the task list
-        $this->tasks = Task::orderBy('created_at', 'desc')->get();
     }
 
     /**

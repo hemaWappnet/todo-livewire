@@ -9,7 +9,7 @@
 
     <!-- Add Task Form -->
     <form wire:submit.prevent="addTask" class="flex mb-4">
-        <input type="text" wire:model="newTask" placeholder="Add a task..."
+        <input type="text" wire:model.defer="newTask" placeholder="Add a task..."
             class="flex-1 p-2 rounded-l-xl border-2 border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
         <button type="submit" class="bg-pink-400 hover:bg-pink-500 text-white font-bold p-2 rounded-r-xl">
             Add
