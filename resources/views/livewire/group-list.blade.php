@@ -28,7 +28,7 @@
     <!-- Confirmation Modal -->
     <div x-show="confirmDelete" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 class="text-xl font-semibold mb-4">Are you sure you want to delete this group?</h2>
+            <h2 class="text-xl font-semibold mb-4">Are you sure you want to delete this task group?</h2>
             <div class="flex justify-between">
                 <button @click="confirmDelete = false"
                     class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded">

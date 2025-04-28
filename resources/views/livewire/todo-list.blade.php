@@ -87,7 +87,7 @@
                                 class="w-full mt-2 p-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300"></textarea>
                         @else
                             <span wire:click="editTask({{ $task->id }})"
-                                class="cursor-pointer font-medium text-gray-800 text-lg {{ $task->completed ? 'line-through text-gray-400' : '' }}">
+                                class="cursor-pointer font-medium text-lg {{ $task->completed ? 'line-through text-gray-400' : 'text-gray-800' }}">
                                 {{ $task->title }}
                             </span>
                             @if ($task->description)
