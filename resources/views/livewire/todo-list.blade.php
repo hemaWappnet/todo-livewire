@@ -1,27 +1,31 @@
-<div class="max-w-md mx-auto p-4 bg-pink-100 rounded-2xl shadow-lg mt-10">
+<div class="max-w-lg mx-auto p-6 bg-white rounded-2xl shadow-lg mt-12">
     <!-- Success Message -->
     @if (session()->has('message'))
-        <div class="alert alert-success">{{ session('message') }}</div>
+        <div class="alert alert-success mb-4 p-4 bg-green-100 text-green-800 rounded-lg shadow">
+            {{ session('message') }}
+        </div>
     @endif
 
     <!-- Header -->
-    <h1 class="text-3xl font-extrabold text-center mb-4 font-cute">My To-Do List 📝</h1>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-center mb-6 text-pink-500 font-cute">My To-Do List 📝</h1>
 
     <!-- Add Task Form -->
-    <form wire:submit.prevent="addTask" class="flex mb-4">
+    <form wire:submit.prevent="addTask" class="flex flex-col sm:flex-row items-center mb-6">
         <input type="text" wire:model.defer="newTask" placeholder="Add a task..."
-            class="flex-1 p-2 rounded-l-xl border-2 border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
-        <button type="submit" class="bg-pink-400 hover:bg-pink-500 text-white font-bold p-2 rounded-r-xl">
+            class="flex-1 p-3 rounded-l-xl border-2 border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-300">
+        <button type="submit"
+            class="bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white font-bold p-3 rounded-r-xl transition-all duration-300 w-full sm:w-auto">
             Add
         </button>
     </form>
 
     <!-- Task List -->
-    <ul class="space-y-3">
+    <ul class="space-y-4 overflow-auto max-h-32">
         @foreach ($tasks as $task)
             <div wire:key="{{ $task->id }}">
-                <li class="flex items-center justify-between p-3 bg-white rounded-xl shadow hover:shadow-md transition">
-                    <div class="flex items-center space-x-2">
+                <li
+                    class="flex items-center justify-between p-4 bg-pink-100 rounded-xl shadow hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center space-x-4">
                         <!-- Toggle Completed -->
                         <input type="checkbox" wire:change="toggleCompleted({{ $task->id }})"
                             {{ $task->completed ? 'checked' : '' }} class="form-checkbox text-pink-500 rounded-full">
@@ -30,10 +34,10 @@
                         @if ($editingTaskId === $task->id)
                             <input type="text" wire:model="editedTaskTitle"
                                 wire:keydown.enter="updateTask({{ $task->id }})"
-                                class="border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                                class="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all duration-300">
                         @else
                             <span
-                                class="{{ $task->completed ? 'line-through text-gray-400' : '' }} font-cute cursor-pointer"
+                                class="{{ $task->completed ? 'line-through text-gray-400' : '' }} font-cute cursor-pointer text-lg text-gray-800"
                                 wire:click="editTask({{ $task->id }})">
                                 {{ $task->title }}
                             </span>
@@ -42,7 +46,7 @@
 
                     <!-- Delete Task -->
                     <button wire:click="deleteTask({{ $task->id }})"
-                        class="text-red-400 hover:text-red-600 transition transform hover:scale-110">✖️</button>
+                        class="text-red-400 hover:text-red-600 transition transform hover:scale-110 text-xl">✖️</button>
                 </li>
             </div>
         @endforeach

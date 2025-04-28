@@ -16,9 +16,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/todo', function () {
-        return view('todo');
-    })->name('todo');
+    Route::get('/todos', function () {
+        return view('todos');
+    })->name('todos');
 });
 
 require __DIR__ . '/auth.php';

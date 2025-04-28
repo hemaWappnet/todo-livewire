@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('todo')" :active="request()->routeIs('todo')">
+                    <x-nav-link :href="route('todos')" :active="request()->routeIs('todos')">
                         {{ __('To-Do') }}
                     </x-nav-link>
                 </div>
@@ -73,7 +73,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('todo')" :active="request()->routeIs('todo')">
+            <x-responsive-nav-link :href="route('todos')" :active="request()->routeIs('todos')">
                 {{ __('To-Do') }}
             </x-responsive-nav-link>
         </div>

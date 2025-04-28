@@ -12,14 +12,17 @@ class TodoList extends Component
     public Collection $tasks;
     public $editingTaskId = null;
     public $editedTaskTitle = '';
+    public $groupId;
 
     /**
      * Lifecycle hook to initialize the component.
      */
-    public function mount()
+    public function mount($groupId)
     {
-        // Fetch all tasks ordered by creation date
-        $this->tasks = Task::orderBy('created_at', 'desc')->get();
+        $this->groupId = $groupId;
+        $this->tasks = Task::where('task_group_id', $groupId)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     /**
@@ -34,6 +37,7 @@ class TodoList extends Component
         // Create a new task and add it to the list
         $task = Task::create([
             'title' => $this->newTask,
+            'task_group_id' => $this->groupId,
         ]);
 
         // Add the task to the local list (no need to refetch from the DB)
