@@ -44,8 +44,10 @@
 
     <!-- Modal -->
     <div x-show="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-pink-100 p-8 rounded-2xl shadow-lg w-full max-w-lg transform transition-all duration-300">
-            <div class="flex justify-end items-center">
+        <div class="bg-pink-100 p-8 rounded-2xl shadow-lg w-full max-w-2xl transform transition-all duration-300">
+            <div class="flex justify-between items-center">
+                <!-- Header -->
+                <h1 class="text-4xl font-extrabold text-center text-pink-500">My To-Do List 📝</h1>
                 <button @click="showModal = false"
                     class="text-red-500 hover:text-red-700 float-right text-2xl font-bold">✖️</button>
             </div>

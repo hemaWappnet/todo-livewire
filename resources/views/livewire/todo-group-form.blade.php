@@ -1,4 +1,4 @@
-<div class="mt-8">
+<div class="mt-2">
     <!-- Group Name & Save -->
     <div class="flex flex-col sm:flex-row items-center mb-6">
         <input type="text" wire:model.defer="groupName" placeholder="Enter list name..."
@@ -11,7 +11,7 @@
 
     @if ($groupId)
         <!-- Embed the existing todo-list component -->
-        <div class="mt-6">
+        <div>
             @livewire('todo-list', ['groupId' => $groupId])
         </div>
     @endif
